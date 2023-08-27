@@ -19,20 +19,28 @@ const settings = {
 const alchemy = new Alchemy(settings);
 
 function App() {
+  const [block, setBlock] = useState();
   const [blockNumber, setBlockNumber] = useState();
 
   useEffect(() => {
     async function getBlockNumber() {
       // get current block number
       setBlockNumber(await alchemy.core.getBlockNumber());
-      const block = await alchemy.core.getBlockWithTransactions(blockNumber);
-      console.log("Block: ", block);
+      setBlock(await alchemy.core.getBlockWithTransactions(blockNumber));
     }
 
     getBlockNumber();
   });
 
-  return <div className="App">Block Number: {blockNumber}</div>;
+  return (
+    <div className="App">
+      <div>Block number: {blockNumber}</div>
+      {block &&
+        block.transactions.map((tx, i) => (
+          <div>{i < 10 ? "From: " + tx.from : ""}</div>
+        ))}
+    </div>
+  );
 }
 
 export default App;
