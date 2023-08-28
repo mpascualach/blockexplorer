@@ -37,7 +37,7 @@ function App() {
       <div>Block number: {blockNumber}</div>
       {block &&
         block.transactions.map((tx, i) => (
-          <div>{i < 10 ? "From: " + tx.from : ""}</div>
+          <div key={i}>{i < 10 ? "From: " + tx.from : ""}</div>
         ))}
     </div>
   );
