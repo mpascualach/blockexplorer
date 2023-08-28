@@ -2,7 +2,7 @@ import { Alchemy, Network } from "alchemy-sdk";
 import { useEffect, useState } from "react";
 
 import "./App.css";
-import Block from "./components/Block";
+import Block from "./components/BlockComponent";
 // Refer to the README doc for more information about using API
 // keys in client-side code. You should never do this in production
 // level code.
@@ -38,7 +38,12 @@ function App() {
     console.log(block);
   }, [block]);
 
-  return <div className="App">{block && <Block block={block}></Block>}</div>;
+  return (
+    <div className="flex flex-col items-center p-10">
+      <h1 className="text-4xl m-5">Block Explorer</h1>
+      {block && <Block block={block}></Block>}
+    </div>
+  );
 }
 
 export default App;
