@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { utils } from "ethers";
 
 const Block = ({ block }) => {
@@ -23,26 +23,27 @@ const Block = ({ block }) => {
   const calculateAvgValue = (block) => {
     const totalValue = block.transactions.reduce((a, b) => {
       return a + b.value;
-    });
+    }, 0);
   };
 
   return (
     <div className="block-details p-5 w-full bg-[#B27E41] rounded-[10px] flex justify-between text-white text-xl/[20px] shadow-md">
       <div
-        className="flex flex-col items-start gap-[20px]"
+        className="flex flex-col items-start gap-[10px]"
         style={{ fontSize: "24px" }}
       >
         <p>Block #{block.number}</p>
         <p style={{ fontSize: "18px" }}>{convertTimestamp(block.timestamp)}</p>
       </div>
-      <div className="flex flex-col items-start gap-[20px]">
+      <div className="flex flex-col items-start gap-[10px]">
         <p>Mined by: </p>
         <p>{block.miner}</p>
       </div>
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col items-start gap-[10px]">
         <p>Average value: </p>
         <p></p>
       </div>
+      <div className="flex flex-col items-start gap-[10px]"></div>
     </div>
   );
 };

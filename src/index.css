@@ -8,11 +8,16 @@ body {
   width: 100%;
 }
 
+@font-face {
+  font-family: "Gothic-A1";
+  src: url("../public/fonts/GothicA1-Regular.ttf") format("ttf");
+  /* Add more formats if needed */
+  /* font-weight, font-style, etc. */
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Gothic-A1", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
