@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { utils } from "ethers";
+import { Utils } from "alchemy-sdk";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Block = ({ block }) => {
-  // useEffect(() => {
-  //   console.log("block in component: ", block);
-  // }, [block]);
+  const [toggled, setToggle] = useState(false);
+
+  useEffect(() => {
+    calculateAvgValue(block);
+  }, [block]);
 
   const convertTimestamp = (timestamp) => {
     const dateObject = new Date(timestamp * 1000);
@@ -22,28 +25,76 @@ const Block = ({ block }) => {
 
   const calculateAvgValue = (block) => {
     const totalValue = block.transactions.reduce((a, b) => {
-      return a + b.value;
+      return a + parseFloat(Utils.formatUnits(b.value, "ether"));
     }, 0);
+    return totalValue / block.transactions.length;
+  };
+
+  const roundNumber = (number) => {
+    const decimalPlaces = 2;
+
+    const factor = Math.pow(10, decimalPlaces);
+
+    const roundedNumber = Math.floor(number * factor) / factor;
+    return roundedNumber;
   };
 
   return (
-    <div className="block-details p-5 w-full bg-[#B27E41] rounded-[10px] flex justify-between text-white text-xl/[20px] shadow-md">
-      <div
-        className="flex flex-col items-start gap-[10px]"
-        style={{ fontSize: "24px" }}
-      >
-        <p>Block #{block.number}</p>
-        <p style={{ fontSize: "18px" }}>{convertTimestamp(block.timestamp)}</p>
+    <div className="block-container w-full">
+      <div className="block-details p-5 w-full bg-[#B27E41] rounded-[10px] flex justify-between text-white text-xl/[20px] shadow-md">
+        <div
+          className="flex flex-col items-start gap-[10px]"
+          style={{ fontSize: "24px" }}
+        >
+          <p>Block #{block.number}</p>
+          <p style={{ fontSize: "18px" }}>
+            {convertTimestamp(block.timestamp)}
+          </p>
+        </div>
+        <div className="flex flex-col items-start gap-[10px]">
+          <p>Mined by: </p>
+          <p>{block.miner}</p>
+        </div>
+        <div className="flex flex-col items-start gap-[10px]">
+          <p>Average value: </p>
+          <p>{roundNumber(calculateAvgValue(block))} ETH</p>
+        </div>
+        <div
+          className="flex flex-col items-start gap-[10px] justify-center"
+          onClick={() => setToggle(!toggled)}
+        >
+          <FontAwesomeIcon
+            icon={toggled ? "caret-up" : "caret-down"}
+          ></FontAwesomeIcon>
+        </div>
       </div>
-      <div className="flex flex-col items-start gap-[10px]">
-        <p>Mined by: </p>
-        <p>{block.miner}</p>
-      </div>
-      <div className="flex flex-col items-start gap-[10px]">
-        <p>Average value: </p>
-        <p></p>
-      </div>
-      <div className="flex flex-col items-start gap-[10px]"></div>
+      {toggled &&
+        block.transactions &&
+        block.transactions.slice(0, 5).map((transaction, index) => (
+          <div
+            className="p-5 w-full bg-[#EADCDC] rounded-[10px] grid grid-flow-col text-xl/[18px] shadow-md text-left relative pt-8"
+            style={{
+              zIndex: `${(index + 1) * -1}`,
+              bottom: `${(index + 1) * 10}px`,
+            }}
+            key={index}
+          >
+            <div className="font-bold flex flex-col items-start gap-[10px] justify-center">
+              {index}
+            </div>
+            <div className="flex flex-col items-start gap-[10px] justify-center">
+              <p>
+                From <span>{transaction.from}</span>
+              </p>
+              <p>
+                to <span>{transaction.to}</span>
+              </p>
+            </div>
+            <div className="flex flex-col items-start gap-[10px] justify-center">
+              {roundNumber(Utils.formatUnits(transaction.value, "ether"))} ETH
+            </div>
+          </div>
+        ))}
     </div>
   );
 };
