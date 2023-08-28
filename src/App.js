@@ -2,7 +2,7 @@ import { Alchemy, Network } from "alchemy-sdk";
 import { useEffect, useState } from "react";
 
 import "./App.css";
-
+import Block from "./components/Block";
 // Refer to the README doc for more information about using API
 // keys in client-side code. You should never do this in production
 // level code.
@@ -23,24 +23,22 @@ function App() {
   const [blockNumber, setBlockNumber] = useState();
 
   useEffect(() => {
-    async function getBlockNumber() {
-      // get current block number
-      setBlockNumber(await alchemy.core.getBlockNumber());
-      setBlock(await alchemy.core.getBlockWithTransactions(blockNumber));
-    }
+    if (!block) {
+      async function getBlock() {
+        // get current block number
+        setBlockNumber(await alchemy.core.getBlockNumber());
+        setBlock(await alchemy.core.getBlockWithTransactions(blockNumber));
+      }
 
-    getBlockNumber();
+      getBlock();
+    }
   });
 
-  return (
-    <div className="App">
-      <div>Block number: {blockNumber}</div>
-      {block &&
-        block.transactions.map((tx, i) => (
-          <div key={i}>{i < 10 ? "From: " + tx.from : ""}</div>
-        ))}
-    </div>
-  );
+  useEffect(() => {
+    console.log(block);
+  }, [block]);
+
+  return <div className="App">{block && <Block block={block}></Block>}</div>;
 }
 
 export default App;

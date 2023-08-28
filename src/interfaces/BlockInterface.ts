@@ -1,4 +1,4 @@
-interface BlockInterface {
+export default interface BlockInterface {
   baseFeePerGas?: BigInt;
   difficulty?: number;
   extraData?: string;
