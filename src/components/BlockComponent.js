@@ -21,15 +21,21 @@ const Block = ({ block }) => {
   };
 
   return (
-    <div className="block-details p-2 w-full bg-[#976832] rounded-[10px] grid grid-cols-4 gap-4">
-      <div>
+    <div className="block-details p-5 w-full bg-[#B27E41] rounded-[10px] flex justify-between text-white text-xl/[20px] shadow-md">
+      <div
+        className="flex flex-col items-start gap-[20px]"
+        style={{ fontSize: "24px" }}
+      >
         <p>#{block.number}</p>
+        <p style={{ fontSize: "18px" }}>{convertTimestamp(block.timestamp)}</p>
       </div>
-      <div>
-        <p>Mined by: {block.miner} </p>
+      <div className="flex flex-col items-start gap-[20px]">
+        <p>Mined by: </p>
+        <p>{block.miner}</p>
       </div>
-      <div>
-        <p>{convertTimestamp(block.timestamp)}</p>
+      <div className="flex flex-col items-start">
+        <p>Average value: </p>
+        <p></p>
       </div>
     </div>
   );
