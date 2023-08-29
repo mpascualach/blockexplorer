@@ -70,19 +70,22 @@ const Block = ({ block }) => {
       </div>
       {toggled &&
         block.transactions &&
-        block.transactions.slice(0, 5).map((transaction, index) => (
+        block.transactions.slice(0, 1).map((transaction, index) => (
           <div
-            className="p-5 w-full bg-[#EADCDC] rounded-[10px] grid grid-flow-col text-xl/[18px] shadow-md text-left relative pt-8"
+            className="p-5 w-full bg-[#EADCDC] rounded-[10px] flex text-xl/[18px] shadow-md text-left relative pt-8"
             style={{
               zIndex: `${(index + 1) * -1}`,
               bottom: `${(index + 1) * 10}px`,
             }}
             key={index}
           >
-            <div className="font-bold flex flex-col items-start gap-[10px] justify-center">
+            <div className="font-bold flex flex-col items-start gap-[10px] justify-center w-auto mr-10">
               {index}
             </div>
-            <div className="flex flex-col items-start gap-[10px] justify-center">
+            <div className="flex flex-col items-start gap-[10px] justify-center w-1/6">
+              <p>Type: {transaction.type}</p>
+            </div>
+            <div className="flex flex-col items-start gap-[10px] justify-center w-4/6">
               <p>
                 From <span>{transaction.from}</span>
               </p>
@@ -90,7 +93,8 @@ const Block = ({ block }) => {
                 to <span>{transaction.to}</span>
               </p>
             </div>
-            <div className="flex flex-col items-start gap-[10px] justify-center">
+            <div className="flex flex-col items-start gap-[10px] justify-center w-1/6">
+              <p>Value: </p>
               {roundNumber(Utils.formatUnits(transaction.value, "ether"))} ETH
             </div>
           </div>

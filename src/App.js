@@ -41,7 +41,7 @@ function App() {
   return (
     <div className="flex flex-col items-center p-10">
       <h1 className="text-4xl m-5">Block Explorer</h1>
-      {block && <Block block={block}></Block>}
+      {block && <Block block={block} className="mt-5"></Block>}
     </div>
   );
 }
